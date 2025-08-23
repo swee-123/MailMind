@@ -1,0 +1,182 @@
+
+
+# config/prompts/reply_generation.yaml
+# AI reply generation prompts and templates for Mail Mind
+
+reply_generation:
+  # System prompts for different reply types
+  system_prompts:
+    professional:
+      prompt: |
+        You are a professional email assistant helping to draft business correspondence.
+        Maintain a professional, courteous tone while being clear and concise.
+        Use appropriate business language and formal structure.
+        Always include proper greetings and closings.
+        
+    casual:
+      prompt: |
+        You are helping draft a friendly, casual email response.
+        Use a warm, conversational tone while remaining respectful.
+        Keep the language natural and approachable.
+        Match the informal tone of the original message.
+        
+    formal:
+      prompt: |
+        You are drafting a formal business response requiring official language.
+        Use structured, professional terminology with proper etiquette.
+        Include all necessary formal elements and maintain diplomatic tone.
+        Ensure compliance with business communication standards.
+
+  # Reply templates by category
+  templates:
+    acknowledgment:
+      quick:
+        - "Thanks for your email. I'll review this and get back to you shortly."
+        - "I've received your message and will respond within 24 hours."
+        - "Thank you for reaching out. I'll look into this and follow up soon."
+      
+      detailed:
+        - "Thank you for your email regarding [SUBJECT]. I appreciate you bringing this to my attention and will review the details carefully before responding."
+        - "I've received your message about [TOPIC] and understand the importance of this matter. I'll analyze the information and provide a comprehensive response within [TIMEFRAME]."
+
+    meeting_requests:
+      accept:
+        - "I'd be happy to meet with you. The proposed time of [TIME] on [DATE] works well for me."
+        - "Thank you for the meeting invitation. I can confirm my attendance for [DATE] at [TIME]."
+      
+      decline:
+        - "Unfortunately, I have a conflict at the proposed time. Could we reschedule for [ALTERNATIVE_TIME]?"
+        - "I appreciate the invitation, but I won't be able to attend due to a prior commitment. Perhaps we could find an alternative time?"
+      
+      reschedule:
+        - "I need to reschedule our meeting due to an unexpected conflict. Would [NEW_DATE] at [NEW_TIME] work for you?"
+        - "Could we move our meeting to a different time? I have the following availability: [AVAILABLE_TIMES]."
+
+    project_updates:
+      status_request:
+        - "Thank you for your inquiry about the project status. Here's the current update: [STATUS_DETAILS]"
+        - "I'm pleased to provide you with the following project update: [PROGRESS_DETAILS]"
+      
+      completion:
+        - "I'm happy to report that [PROJECT_NAME] has been completed successfully. [COMPLETION_DETAILS]"
+        - "The project is now finished and ready for your review. Please find the deliverables attached."
+
+    information_requests:
+      providing_info:
+        - "Here's the information you requested: [INFORMATION_DETAILS]"
+        - "I'm happy to provide the details you asked about: [REQUESTED_INFO]"
+      
+      requesting_clarification:
+        - "Could you please provide more details about [SPECIFIC_POINT]? This will help me give you a more accurate response."
+        - "I need some clarification on [TOPIC] to ensure I address your request properly."
+
+    follow_up:
+      gentle_reminder:
+        - "I wanted to follow up on my previous email regarding [SUBJECT]. Please let me know if you need any additional information."
+        - "Just checking in about [TOPIC]. I'm available to discuss this further if needed."
+      
+      urgent_follow_up:
+        - "I wanted to follow up urgently on [SUBJECT] as we're approaching the deadline of [DATE]."
+        - "This is a time-sensitive follow-up regarding [URGENT_MATTER]. Please respond at your earliest convenience."
+
+  # Response patterns based on email content
+  content_patterns:
+    questions:
+      single_question:
+        structure: "greeting + direct_answer + additional_info + closing"
+        template: "Hi [NAME], [DIRECT_ANSWER]. [ADDITIONAL_CONTEXT]. [CLOSING]"
+      
+      multiple_questions:
+        structure: "greeting + numbered_responses + offer_to_discuss + closing"
+        template: "Hi [NAME], I'll address each of your questions: 1) [ANSWER1] 2) [ANSWER2] 3) [ANSWER3]. Happy to discuss further if needed. [CLOSING]"
+
+    requests:
+      simple_request:
+        positive: "I'd be happy to help with [REQUEST]. [ACTION_TAKEN/TIMELINE]."
+        negative: "Unfortunately, I won't be able to [REQUEST] because [REASON]. However, I can [ALTERNATIVE]."
+      
+      complex_request:
+        positive: "Thank you for your request regarding [TOPIC]. I can assist with this, though it will require [REQUIREMENTS]. Here's how we can proceed: [STEPS]."
+        negative: "I appreciate your request for [TOPIC]. While I cannot [SPECIFIC_REQUEST] due to [CONSTRAINTS], I'd like to suggest [ALTERNATIVES]."
+
+  # Tone adaptation rules
+  tone_matching:
+    urgent:
+      indicators: ["urgent", "asap", "immediately", "critical"]
+      response_tone: "acknowledge urgency + provide timeline + prioritize"
+      template: "I understand this is urgent. [IMMEDIATE_ACTION] and will [TIMELINE_COMMITMENT]."
+    
+    formal:
+      indicators: ["dear sir/madam", "to whom it may concern", "formal language"]
+      response_tone: "formal business language + proper structure"
+      template: "Dear [TITLE] [NAME], Thank you for your correspondence. [FORMAL_RESPONSE]. Sincerely, [SIGNATURE]"
+    
+    casual:
+      indicators: ["hi", "hey", "thanks", "casual language"]
+      response_tone: "friendly and conversational"
+      template: "Hi [NAME], [CASUAL_RESPONSE]. Thanks! [SIGNATURE]"
+
+  # Auto-completion suggestions
+  smart_suggestions:
+    common_phrases:
+      - "Thank you for your patience"
+      - "I apologize for any inconvenience"
+      - "Please don't hesitate to reach out"
+      - "I look forward to hearing from you"
+      - "Let me know if you have any questions"
+      - "I'll keep you updated on the progress"
+    
+    time_references:
+      - "within the next 24 hours"
+      - "by end of business today"
+      - "early next week"
+      - "at your earliest convenience"
+      - "within the next few days"
+    
+    meeting_language:
+      - "Would you be available for a brief call?"
+      - "Let's schedule a time to discuss"
+      - "I'm free on [DAYS] between [TIMES]"
+      - "Please send me a calendar invite"
+      - "Looking forward to our meeting"
+
+  # Personalization settings
+  personalization:
+    signature_templates:
+      professional:
+        - "Best regards,\n[NAME]\n[TITLE]\n[COMPANY]\n[CONTACT_INFO]"
+        - "Sincerely,\n[NAME]\n[TITLE]\n[COMPANY]"
+      
+      casual:
+        - "Thanks,\n[NAME]"
+        - "Best,\n[NAME]"
+        - "Cheers,\n[NAME]"
+    
+    greeting_preferences:
+      formal: ["Dear [NAME]", "Dear [TITLE] [NAME]"]
+      professional: ["Hi [NAME]", "Hello [NAME]"]
+      casual: ["Hey [NAME]", "Hi there"]
+
+  # AI generation parameters
+  generation_settings:
+    max_length: 300  # words
+    min_length: 50   # words
+    creativity: 0.7  # 0-1 scale
+    formality_adaptation: true
+    context_awareness: true
+    
+  # Quality checks
+  quality_filters:
+    - check_grammar
+    - verify_tone_consistency
+    - ensure_context_relevance
+    - validate_professional_language
+    - confirm_completeness
+    
+  # Learning and improvement
+  feedback_learning:
+    track_user_edits: true
+    learn_from_preferences: true
+    improve_suggestions: true
+    adapt_to_writing_style: true
+

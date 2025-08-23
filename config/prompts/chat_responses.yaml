@@ -1,0 +1,112 @@
+# config/prompts/chat_responses.yaml
+# Configuration for AI chat responses in Mail Mind
+
+chat_responses:
+  greeting:
+    - "Hello! I'm Mail Mind, your intelligent email assistant. How can I help you manage your emails today?"
+    - "Hi there! Ready to make your email management smarter? What would you like me to help with?"
+    - "Welcome to Mail Mind! I'm here to help you organize, analyze, and manage your emails efficiently."
+
+  email_analysis_complete:
+    - "I've analyzed your email and found some interesting insights. Here's what I discovered:"
+    - "Email analysis complete! I've categorized and prioritized your message based on its content."
+    - "Your email has been processed. Here are the key findings from my analysis:"
+
+  categorization_responses:
+    work:
+      - "This appears to be a work-related email. I've categorized it under professional correspondence."
+      - "This looks like a business email that may require your attention during work hours."
+    
+    personal:
+      - "This seems to be a personal message from someone in your network."
+      - "I've identified this as personal correspondence - no urgent business action needed."
+    
+    promotional:
+      - "This appears to be promotional content or marketing material."
+      - "I've detected this as a promotional email - you might want to review if it's relevant."
+    
+    urgent:
+      - "⚠️ This email appears to require immediate attention based on its content and tone."
+      - "High priority alert! This message contains urgent keywords and should be addressed soon."
+
+  sentiment_responses:
+    positive:
+      - "The tone of this email is positive and friendly."
+      - "This message has an upbeat and optimistic tone."
+    
+    negative:
+      - "This email carries a somewhat negative or concerned tone."
+      - "The sender appears frustrated or upset based on the language used."
+    
+    neutral:
+      - "This email has a professional, neutral tone."
+      - "The message is straightforward with a business-like tone."
+    
+    urgent:
+      - "The language indicates urgency and immediate attention is needed."
+      - "This message conveys a sense of urgency that shouldn't be ignored."
+
+  action_suggestions:
+    reply_needed:
+      - "This email likely requires a response from you."
+      - "Consider replying to this message - the sender appears to be waiting for your input."
+    
+    follow_up:
+      - "You might want to follow up on this email in a few days."
+      - "This seems like something to revisit later for a follow-up."
+    
+    file_away:
+      - "This email can probably be archived after reading."
+      - "No immediate action needed - this is informational content."
+    
+    calendar_event:
+      - "This email mentions dates or meetings - consider adding to your calendar."
+      - "I detected scheduling information that might need calendar integration."
+
+  error_messages:
+    analysis_failed:
+      - "I encountered an issue while analyzing this email. Please try again."
+      - "Something went wrong during the analysis. Let me try a different approach."
+    
+    no_content:
+      - "This email appears to be empty or I couldn't extract readable content."
+      - "I'm having trouble reading the content of this email. Could you check if it loaded properly?"
+    
+    api_error:
+      - "I'm experiencing connectivity issues with my AI services. Please try again in a moment."
+      - "There's a temporary issue with my analysis capabilities. Retrying..."
+
+  help_responses:
+    commands:
+      - "Here are some things I can help you with: analyze emails, categorize messages, suggest responses, and manage your inbox."
+      - "I can analyze email sentiment, prioritize messages, draft replies, and provide insights about your communication patterns."
+    
+    features:
+      - "My features include: smart categorization, sentiment analysis, priority scoring, auto-replies, and email summarization."
+      - "I offer intelligent email sorting, mood detection, urgency assessment, and personalized response suggestions."
+
+  confirmation_messages:
+    email_sent:
+      - "Your email has been sent successfully!"
+      - "Message delivered! Your email is on its way."
+    
+    email_drafted:
+      - "I've prepared a draft response for you. Please review before sending."
+      - "Draft ready! Take a look at the suggested reply and make any adjustments."
+    
+    categorized:
+      - "Email successfully categorized and filed."
+      - "Your message has been organized and tagged appropriately."
+
+# Response personalization settings
+personalization:
+  use_recipient_name: true
+  adapt_to_user_style: true
+  remember_preferences: true
+  context_awareness: true
+
+# Response timing
+timing:
+  typing_delay: 1.5  # seconds
+  response_timeout: 30  # seconds
+  retry_attempts: 3

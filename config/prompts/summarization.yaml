@@ -1,0 +1,283 @@
+# config/prompts/summarization.yaml
+# Email summarization prompts and rules for Mail Mind
+
+summarization:
+  # System prompts for different summary types
+  system_prompts:
+    brief:
+      prompt: |
+        You are an expert email summarizer. Create a concise, one-sentence summary that captures the main point and any required action.
+        Focus on: What is the email about? What does the sender want? What action is needed?
+        Keep it under 50 words and make it actionable.
+        
+    detailed:
+      prompt: |
+        Create a comprehensive summary of this email including:
+        - Main topic and purpose
+        - Key points discussed
+        - Any requests or questions
+        - Deadlines or time-sensitive information
+        - Required actions
+        Format as bullet points for easy scanning.
+        
+    executive:
+      prompt: |
+        Provide an executive-level summary focusing on:
+        - Business impact
+        - Decision points
+        - Financial implications
+        - Strategic relevance
+        - Immediate action items
+        Use professional language suitable for leadership review.
+
+  # Summary templates by email type
+  templates:
+    meeting_request:
+      brief: "[SENDER] wants to schedule a [MEETING_TYPE] about [TOPIC] on [DATE]"
+      detailed: |
+        • Meeting request from [SENDER]
+        • Topic: [MEETING_TOPIC]
+        • Proposed time: [DATE_TIME]
+        • Duration: [DURATION]
+        • Attendees: [ATTENDEE_LIST]
+        • Action: Confirm availability
+    
+    project_update:
+      brief: "[PROJECT] update: [STATUS] - [NEXT_ACTION] needed"
+      detailed: |
+        • Project: [PROJECT_NAME]
+        • Current status: [STATUS_DETAILS]
+        • Progress: [PERCENTAGE_COMPLETE]%
+        • Next milestones: [UPCOMING_MILESTONES]
+        • Issues/blockers: [ISSUES]
+        • Action required: [ACTION_ITEMS]
+    
+    information_request:
+      brief: "[SENDER] needs [REQUESTED_INFO] by [DEADLINE]"
+      detailed: |
+        • Information request from [SENDER]
+        • Requested details: [INFO_DETAILS]
+        • Purpose: [REQUEST_PURPOSE]
+        • Deadline: [DEADLINE]
+        • Format needed: [FORMAT_REQUIREMENTS]
+        • Action: Gather and provide information
+    
+    complaint_issue:
+      brief: "[SENDER] reports [ISSUE_TYPE] - [URGENCY_LEVEL] response needed"
+      detailed: |
+        • Issue reported by: [SENDER]
+        • Problem type: [ISSUE_CATEGORY]
+        • Description: [ISSUE_DETAILS]
+        • Impact level: [IMPACT_ASSESSMENT]
+        • Customer details: [CUSTOMER_INFO]
+        • Action: Investigate and respond urgently
+    
+    proposal_contract:
+      brief: "[SENDER] submitted [DOCUMENT_TYPE] for [AMOUNT] - review needed"
+      detailed: |
+        • Document type: [PROPOSAL/CONTRACT]
+        • From: [SENDER_COMPANY]
+        • Value: [FINANCIAL_AMOUNT]
+        • Key terms: [MAIN_TERMS]
+        • Deadline for response: [DEADLINE]
+        • Action: Review terms and negotiate/approve
+
+  # Content extraction rules
+  extraction_rules:
+    key_information:
+      dates:
+        patterns:
+          - "\\b\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}\\b"
+          - "\\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\b"
+          - "\\b(January|February|March|April|May|June|July|August|September|October|November|December)\\b"
+        context: "meeting, deadline, event, appointment"
+      
+      money:
+        patterns:
+          - "\\$[\\d,]+"
+          - "\\b\\d+(\\.\\d{2})?\\s*(dollars|USD|EUR|GBP)\\b"
+        context: "budget, cost, price, invoice, payment"
+      
+      people:
+        patterns:
+          - "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b"
+          - "@[\\w.-]+\\.[A-Za-z]{2,}"
+        context: "attendees, contacts, responsible party"
+      
+      actions:
+        keywords:
+          - "please"
+          - "need to"
+          - "required"
+          - "must"
+          - "should"
+          - "action item"
+          - "todo"
+          - "deadline"
+          - "due by"
+    
+    priority_indicators:
+      urgent:
+        - "urgent"
+        - "asap"
+        - "immediately"
+        - "critical"
+        - "emergency"
+      
+      important:
+        - "important"
+        - "priority"
+        - "significant"
+        - "crucial"
+        - "vital"
+
+  # Summary length configurations
+  length_settings:
+    micro:
+      max_words: 20
+      use_case: "mobile notifications, quick previews"
+      template: "[ACTION] from [SENDER]: [MAIN_POINT]"
+    
+    brief:
+      max_words: 50
+      use_case: "inbox previews, dashboard widgets"
+      template: "[SENDER] [ACTION_VERB] [MAIN_TOPIC]. [KEY_DETAIL]. [REQUIRED_ACTION]"
+    
+    standard:
+      max_words: 100
+      use_case: "email list view, general summaries"
+      format: "paragraph with key points highlighted"
+    
+    detailed:
+      max_words: 200
+      use_case: "full email replacement, detailed review"
+      format: "structured bullet points with categories"
+    
+    executive:
+      max_words: 75
+      use_case: "leadership briefings, decision making"
+      focus: "business impact, financial implications, strategic importance"
+
+  # Thread summarization
+  thread_summary:
+    conversation_flow:
+      track_participants: true
+      identify_decisions: true
+      highlight_action_items: true
+      note_unresolved_issues: true
+    
+    templates:
+      short_thread:
+        template: |
+          Thread Summary: [MAIN_TOPIC]
+          Participants: [PARTICIPANT_LIST]
+          Key decisions: [DECISIONS]
+          Action items: [ACTION_ITEMS]
+      
+      long_thread:
+        template: |
+          Conversation Summary: [THREAD_TOPIC]
+          • Timeline: [START_DATE] to [END_DATE] ([MESSAGE_COUNT] messages)
+          • Participants: [PARTICIPANT_LIST]
+          • Main discussion points: [KEY_POINTS]
+          • Decisions made: [DECISIONS_LIST]
+          • Outstanding action items: [PENDING_ACTIONS]
+          • Unresolved issues: [OPEN_ISSUES]
+          • Next steps: [NEXT_STEPS]
+
+  # Smart highlighting
+  highlighting:
+    categories:
+      action_items:
+        color: "red"
+        icon: "⚡"
+        keywords: ["need to", "please", "action required", "must", "should"]
+      
+      deadlines:
+        color: "orange"
+        icon: "⏰"
+        patterns: ["by [date]", "due [date]", "deadline", "expires"]
+      
+      financial:
+        color: "green"
+        icon: "💰"
+        patterns: ["$", "cost", "budget", "price", "invoice", "payment"]
+      
+      people:
+        color: "blue"
+        icon: "👤"
+        context: "names, emails, roles mentioned"
+      
+      decisions:
+        color: "purple"
+        icon: "✅"
+        keywords: ["decided", "approved", "agreed", "confirmed"]
+
+  # Context awareness
+  context_rules:
+    sender_importance:
+      ceo_level: "Include strategic context and business implications"
+      manager_level: "Focus on project impact and team coordination"
+      peer_level: "Highlight collaboration points and shared responsibilities"
+      external: "Emphasize business relationship and service aspects"
+    
+    email_age:
+      recent: "Standard summarization approach"
+      old_important: "Include 'This is a follow-up to previous discussion about...'"
+      archived: "Add context about original conversation timeline"
+    
+    user_involvement:
+      direct_mention: "Highlight personal responsibilities and mentions"
+      cc_recipient: "Focus on informational aspects and relevance"
+      forwarded: "Explain why this was shared and what action is expected"
+
+  # AI model parameters
+  ai_settings:
+    model_preferences:
+      speed_mode:
+        model: "fast_summarizer"
+        creativity: 0.3
+        focus: "key facts and actions"
+      
+      quality_mode:
+        model: "detailed_analyzer"
+        creativity: 0.7
+        focus: "nuanced understanding and context"
+    
+    fine_tuning:
+      domain_adaptation: true
+      user_preference_learning: true
+      feedback_incorporation: true
+      continuous_improvement: true
+
+  # Output formatting
+  formatting:
+    markdown_support: true
+    emoji_usage: "minimal"  # none, minimal, moderate, full
+    bullet_style: "•"
+    numbering_style: "1."
+    
+    emphasis:
+      bold: "**text**"
+      italic: "*text*"
+      highlight: "==text=="
+      
+  # Quality assurance
+  quality_checks:
+    accuracy_validation:
+      - verify_key_facts
+      - check_date_consistency
+      - validate_action_items
+      - confirm_participant_names
+    
+    completeness_check:
+      - main_topic_covered
+      - required_actions_identified
+      - deadlines_mentioned
+      - key_stakeholders_noted
+    
+    clarity_assessment:
+      - readable_language
+      - logical_flow
+      - appropriate_length
+      - actionable_content

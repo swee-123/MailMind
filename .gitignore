@@ -1,0 +1,9 @@
+@"
+mailmind_env/
+.env
+.env.example
+credentials/
+__pycache__/
+*.pyc
+logs/
+"@ | Out-File -Encoding utf8 .gitignore

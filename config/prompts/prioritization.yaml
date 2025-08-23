@@ -1,0 +1,293 @@
+# config/prompts/prioritization.yaml
+# Email prioritization rules and scoring for Mail Mind
+
+prioritization:
+  # Priority levels (1-5 scale, 5 being highest priority)
+  levels:
+    critical: 5
+    high: 4
+    medium: 3
+    low: 2
+    minimal: 1
+
+  # Keyword-based priority scoring
+  keywords:
+    urgent:
+      weight: 5
+      terms:
+        - "urgent"
+        - "asap"
+        - "immediately"
+        - "emergency"
+        - "critical"
+        - "deadline"
+        - "time sensitive"
+        - "rush"
+        - "priority"
+        - "important"
+
+    meeting_related:
+      weight: 4
+      terms:
+        - "meeting"
+        - "conference call"
+        - "zoom"
+        - "teams meeting"
+        - "appointment"
+        - "schedule"
+        - "calendar"
+        - "reschedule"
+        - "agenda"
+
+    financial:
+      weight: 4
+      terms:
+        - "invoice"
+        - "payment"
+        - "budget"
+        - "expense"
+        - "financial"
+        - "billing"
+        - "cost"
+        - "money"
+        - "refund"
+        - "transaction"
+
+    client_related:
+      weight: 4
+      terms:
+        - "client"
+        - "customer"
+        - "prospect"
+        - "lead"
+        - "deal"
+        - "contract"
+        - "proposal"
+        - "quote"
+
+    project_management:
+      weight: 3
+      terms:
+        - "project"
+        - "task"
+        - "milestone"
+        - "deliverable"
+        - "timeline"
+        - "status update"
+        - "progress"
+        - "report"
+
+    informational:
+      weight: 2
+      terms:
+        - "fyi"
+        - "for your information"
+        - "update"
+        - "newsletter"
+        - "announcement"
+        - "notice"
+
+    promotional:
+      weight: 1
+      terms:
+        - "sale"
+        - "discount"
+        - "offer"
+        - "promotion"
+        - "deal"
+        - "marketing"
+        - "advertisement"
+        - "unsubscribe"
+
+  # Sender-based priority rules
+  sender_priority:
+    vip_domains:
+      weight: 4
+      domains:
+        - "ceo@"
+        - "president@"
+        - "director@"
+        - "manager@"
+        - "boss@"
+    
+    internal_domain:
+      weight: 3
+      # Will be configured per organization
+      
+    known_contacts:
+      weight: 3
+      # Contacts marked as important
+      
+    external_new:
+      weight: 2
+      # New external contacts
+      
+    promotional_senders:
+      weight: 1
+      indicators:
+        - "noreply"
+        - "no-reply"
+        - "donotreply"
+        - "marketing"
+        - "newsletter"
+
+  # Time-based priority factors
+  time_factors:
+    recent_emails:
+      within_hour: 1.5  # multiplier
+      within_day: 1.2
+      within_week: 1.0
+      older: 0.8
+    
+    business_hours:
+      during_hours: 1.2
+      after_hours: 0.9
+      weekend: 0.8
+    
+    response_urgency:
+      overdue_response: 2.0  # emails that should have been replied to
+      expected_response: 1.5  # emails expecting a response
+      no_response_needed: 1.0
+
+  # Content analysis factors
+  content_analysis:
+    question_indicators:
+      weight: 1.3
+      patterns:
+        - "\\?"  # Contains questions
+        - "can you"
+        - "could you"
+        - "would you"
+        - "please"
+        - "need your"
+        - "require"
+        - "help"
+        - "assistance"
+
+    action_required:
+      weight: 1.5
+      patterns:
+        - "action required"
+        - "please review"
+        - "please approve"
+        - "please confirm"
+        - "please respond"
+        - "waiting for"
+        - "need by"
+        - "due by"
+
+    negative_sentiment:
+      weight: 1.4
+      # Emails with complaints or issues
+      patterns:
+        - "problem"
+        - "issue"
+        - "error"
+        - "wrong"
+        - "mistake"
+        - "complaint"
+        - "dissatisfied"
+        - "unhappy"
+
+  # Email characteristics
+  characteristics:
+    attachment_present:
+      weight: 1.2
+      types:
+        contract: 1.5
+        invoice: 1.4
+        document: 1.2
+        image: 1.0
+    
+    thread_length:
+      single_email: 1.0
+      short_thread: 1.1  # 2-3 emails
+      long_thread: 1.3   # 4+ emails
+    
+    cc_bcc_count:
+      few_recipients: 1.0    # 1-3 recipients
+      many_recipients: 0.8   # 4-10 recipients
+      mass_email: 0.5       # 10+ recipients
+
+  # Industry-specific rules
+  industry_keywords:
+    healthcare:
+      weight: 4
+      terms:
+        - "patient"
+        - "medical"
+        - "health"
+        - "doctor"
+        - "hospital"
+        - "clinic"
+    
+    legal:
+      weight: 4
+      terms:
+        - "legal"
+        - "court"
+        - "lawsuit"
+        - "attorney"
+        - "lawyer"
+        - "contract"
+        - "compliance"
+    
+    sales:
+      weight: 3
+      terms:
+        - "quota"
+        - "target"
+        - "sales"
+        - "revenue"
+        - "commission"
+        - "pipeline"
+
+  # Auto-prioritization rules
+  auto_rules:
+    # Automatically set to high priority
+    auto_high:
+      - sender_is_vip: true
+      - contains_urgent_keywords: true
+      - overdue_response: true
+      - financial_content: true
+    
+    # Automatically set to low priority
+    auto_low:
+      - promotional_content: true
+      - newsletter: true
+      - auto_generated: true
+      - unsubscribe_present: true
+
+  # Machine learning factors
+  ml_factors:
+    user_behavior:
+      frequently_replied_sender: 1.3
+      rarely_replied_sender: 0.7
+      previously_marked_important: 1.5
+      previously_marked_spam: 0.3
+    
+    engagement_patterns:
+      quick_response_history: 1.2
+      slow_response_history: 0.9
+      never_responded: 0.6
+
+# Scoring algorithm configuration
+scoring:
+  base_score: 3.0  # Starting score for all emails
+  max_score: 5.0
+  min_score: 1.0
+  
+  # Weight distribution
+  keyword_weight: 0.3
+  sender_weight: 0.25
+  time_weight: 0.15
+  content_weight: 0.2
+  characteristics_weight: 0.1
+
+# Priority thresholds for actions
+thresholds:
+  instant_notification: 4.5
+  desktop_notification: 4.0
+  priority_inbox: 3.5
+  normal_inbox: 2.0
+  low_priority_folder: 1.0
